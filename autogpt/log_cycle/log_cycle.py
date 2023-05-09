@@ -79,5 +79,7 @@ class LogCycleHandler:
             nested_folder_path, f"{self.log_count_within_cycle}_{file_name}"
         )
 
-        logger.log_json(json_data, log_file_path)
+        with open(log_file_path, 'a', encoding='UTF-8') as log_file:
+            log_file.write(json_data)
+            
         self.log_count_within_cycle += 1

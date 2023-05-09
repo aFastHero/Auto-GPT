@@ -17,6 +17,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.firefox import GeckoDriverManager
+from selenium.webdriver.chrome.service import Service as ChromeService
 
 import autogpt.processing.text as summary
 from autogpt.commands.command import command
@@ -106,12 +107,11 @@ def scrape_text_with_selenium(url: str) -> tuple[WebDriver, str]:
             options.add_argument("--headless=new")
             options.add_argument("--disable-gpu")
 
-        chromium_driver_path = Path("/usr/bin/chromedriver")
+        # chromium_driver_path = Path("/usr/bin/chromedriver")
 
+        service = ChromeService(executable_path=ChromeDriverManager().install())
         driver = webdriver.Chrome(
-            executable_path=chromium_driver_path
-            if chromium_driver_path.exists()
-            else ChromeDriverManager().install(),
+            service=service,
             options=options,
         )
     driver.get(url)
